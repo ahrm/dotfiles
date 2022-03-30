@@ -10,6 +10,7 @@ Plug 'inkarkat/argtextobj.vim'
 Plug 'puremourning/vimspector'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'morhetz/gruvbox'
+Plug 'mg979/vim-visual-multi'
 
 call plug#end()
 
@@ -33,6 +34,24 @@ function! Headerify()
     let str = @"
     let str = str[:-2]
     call MakeHeader(str, 78)
+endfunction
+
+function ExpandForCpp()
+    execute "normal! cc\<esc>"
+    let str = @"
+    let str = str[:-2]
+    let parts = split(str)
+
+    if len(parts) ==# 2
+        let varname = parts[0]
+        let itername = parts[1]
+        execute "normal afor(auto " . varname . " : " . itername . " ){\<cr>"
+    else
+        let varname = parts[0]
+        let begin = parts[1]
+        let end = parts[2]
+        execute "normal afor(auto " . varname . "=" . begin . "; " . varname . " < " . end . "; " . varname . "++){\<cr>"
+    endif
 endfunction
 
 " -----------------------------------SETTINGS-----------------------------------
@@ -154,22 +173,43 @@ noremap! <C-h> <C-w>
 vnoremap <c-_> :Commentary<cr>
 nnoremap <c-_> :Commentary<cr>
 
-" remap arrow keys to move between windows
+" remap arrow keys to move between splits
 nnoremap <left> <c-w><left>
 nnoremap <right> <c-w><right>
 nnoremap <up> <c-w><up>
 nnoremap <down> <c-w><down>
 
-" swtich header and source files
-nnoremap <c-k><c-o> :execute 'edit' CocRequest('clangd', 'textDocument/switchSourceHeader', {'uri': 'file://'.expand("%:p")})<cr>
-
-" colorscheme
-autocmd vimenter * ++nested colorscheme gruvbox
+"use tab to switch splits
+nnoremap <tab> <c-w><c-w>
 
 " close other windows by double tapping escape
 nnoremap <esc><esc> :only<cr>
 
-" misc
-nnoremap <leader>H :call Headerify()<cr>
+" use ctrl + arrows to resize splits
+nnoremap <c-up> :resize +3<cr>
+nnoremap <c-down> :resize -3<cr>
+nnoremap <c-left> :vertical resize -3<cr>
+nnoremap <c-right> :vertical resize +3<cr>
+
+" use ctrl + J|K to move lines
+nnoremap <c-J> ddp
+nnoremap <c-K> ddkP
+
+" swtich header and source files
+nnoremap <leader>ko :execute 'edit' CocRequest('clangd', 'textDocument/switchSourceHeader', {'uri': 'file://'.expand("%:p")})<cr>
+
+" colorscheme
+autocmd vimenter * ++nested colorscheme gruvbox
+
+" visual multi keyindings
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-d>'   " replace C-n
+let g:VM_maps['Find Subword Under'] = '<C-d>'   " replace visual C-n
+let g:VM_maps["Toggle Mappings"]    = '<CR>'    " toggle VM buffer mappings
+
+" make Y copy to the end of the line
 nnoremap Y y$
 
+" misc
+nnoremap <leader>H :call Headerify()<cr>
+nnoremap <leader>for :call ExpandForCpp()<cr>cc
