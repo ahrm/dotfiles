@@ -147,10 +147,6 @@ nnoremap <c-s> :w<cr>
 " add semicolon to the end of the line
 nnoremap <leader>; :call AddSemicolon()<cr>
 
-
-" todo: configure to select the current argument
-onoremap iA :<c-u>normal! f(vi(<cr>
-
 " autoclose parens
 inoremap (; ()<C-c>ha
 inoremap {; {}<C-c>ha
