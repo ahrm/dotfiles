@@ -1,0 +1,52 @@
+
+# set ifs "\n"
+set filesep " "
+
+cmd rename %sh -c 'mv -i %f% $0'
+map r push :rename<space>
+
+# reload config file using f5
+map <f-5> push :source<space>C:/Users/Lion/AppData/Local/lf/lfrc<enter>
+
+set drawbox
+
+cmd remove push $python<space>D:/lf_scripts/remove_files.py<space>%fx%<enter>
+
+# use a and A to create files and directories
+cmd createfile %sh -c 'touch $0'
+cmd createdir %sh -c 'mkdir $0'
+map a push :createfile<space>
+map A push :createdir<space>
+
+# open explorer in current directory
+map S push &start.<enter>
+
+# copy file path
+map Y %echo %fx% | clip
+
+# open file in nvim
+map V &nvim-qt %f%
+
+# backup and restore
+cmd backup push !python<space>D:/lf_scripts/backup_files.py<space>%fx%<enter>
+cmd backup_restore push !python<space>D:/lf_scripts/debackup_files.py<space>%fx%<enter>
+
+# archive management
+cmd zip %sh -c '7z a $0 %fx%'
+cmd extract_here %sh -c '7z e %f%'
+cmd extract_to %sh -c '7z e %f% -o$0'
+
+# drag and drop
+cmd drag push &python<space>D:/lf_scripts/drag.py<space>multi<space>%fx%<enter>
+cmd dragonce push &python<space>D:/lf_scripts/drag.py<space>once<space>%fx%<enter>
+map D push :dragonce<enter>
+
+# use c-f to fuzzy search
+cmd fzf_jump push $python<space>D:/lf_scripts/fzfpy.py<space>%id%<enter>
+map <c-f> :fzf_jump
+
+# quick preview
+map P $C:\Users\Lion\AppData\Local\Programs\QuickLook\QuickLook.exe %f%
+
+# custom file preview
+set previewer "D:\\lf_scripts\\preview.bat"
