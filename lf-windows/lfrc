@@ -2,9 +2,6 @@
 # set ifs "\n"
 set filesep " "
 
-cmd rename %sh -c 'mv -i %f% $0'
-map r push :rename<space>
-
 # reload config file using f5
 map <f-5> push :source<space>C:/Users/Lion/AppData/Local/lf/lfrc<enter>
 
@@ -20,6 +17,7 @@ map A push :createdir<space>
 
 # open explorer in current directory
 map S push &start.<enter>
+map T push &wt<enter>
 
 # copy file path
 map Y %echo %fx% | clip
@@ -30,6 +28,15 @@ map V &nvim-qt %f%
 # backup and restore
 cmd backup push !python<space>D:/lf_scripts/backup_files.py<space>%fx%<enter>
 cmd backup_restore push !python<space>D:/lf_scripts/debackup_files.py<space>%fx%<enter>
+
+# must have at least a file in it
+cmd bookmark %sh -c 'python D:/lf_scripts/bookmark.py %f% $0'
+cmd goto_bookmark push $python<space>D:/lf_scripts/goto_bookmark.py<space>%id%<enter>
+map B push :bookmark<space>
+map b push :goto_bookmark<enter>
+
+map F push :filter<enter>
+map gF push :setfilter<enter>
 
 # archive management
 cmd zip %sh -c '7z a $0 %fx%'
@@ -46,7 +53,7 @@ cmd fzf_jump push $python<space>D:/lf_scripts/fzfpy.py<space>%id%<enter>
 map <c-f> :fzf_jump
 
 # quick preview
-map P $C:\Users\Lion\AppData\Local\Programs\QuickLook\QuickLook.exe %f%
+# map P $C:\Users\Lion\AppData\Local\Programs\QuickLook\QuickLook.exe %f%
 
 # custom file preview
 set previewer "D:\\lf_scripts\\preview.bat"

@@ -110,7 +110,8 @@ def drag_init_listbox(event):
         print('Dragging :', data)
     # tuples can also be used to specify possible alternatives for
     # action type and DnD type:
-    return ((ASK, COPY), (DND_FILES, DND_TEXT), data)
+    # return ((ASK, COPY), (DND_FILES, DND_TEXT), data)
+    return ((ASK, COPY), DND_FILES, data)
 
 def drag_init_text(event):
     # use a string if there is only a single text string to be dragged
