@@ -42,6 +42,11 @@ map gF push :setfilter<enter>
 cmd zip %sh -c '7z a $0 %fx%'
 cmd extract_here %sh -c '7z e %f%'
 cmd extract_to %sh -c '7z e %f% -o$0'
+cmd extract_auto %sh -c '7z e %f% -o%f%_extracted'
+cmd extract_auto_and_remove %sh -c '7z e %f% -o%f%_extracted && rm %f%'
+
+map x push :extract_auto<enter>
+map X push :extract_auto_and_remove<enter>
 
 # drag and drop
 cmd drag push &python<space>D:/lf_scripts/drag.py<space>multi<space>%fx%<enter>
@@ -57,3 +62,9 @@ map <c-f> :fzf_jump
 
 # custom file preview
 set previewer "D:\\lf_scripts\\preview.bat"
+
+# cmd send_to_mobile %sh -c 'scp -P 2222 hex@192.168.1.151: %fx%'
+cmd send_to_mobile push $scp<space>-P<space>2222<space>%fx%<space>hex@192.168.1.151:<enter>
+cmd send_to_tablet push $scp<space>-P<space>2222<space>%fx%<space>hex@192.168.1.150:<enter>
+map st push :send_to_tablet<enter>
+map sm push :send_to_mobile<enter>
