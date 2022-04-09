@@ -183,3 +183,17 @@ cmd open_terminal ${{
 }}
 
 map <c-t> open_terminal
+
+
+cmd bookmark_jump ${{
+    res="$(cat $LF_BOOKMARK_PATH/$(ls $LF_BOOKMARK_PATH | fzf))"
+    lf -remote "send $id cd \"$res\""
+}}
+
+cmd bookmark_create ${{
+    read ans
+    echo $PWD > $LF_BOOKMARK_PATH/$ans
+}}
+
+map b bookmark_jump
+map B bookmark_create
