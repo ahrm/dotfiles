@@ -1,0 +1,87 @@
+let mapleader = " "
+
+" telescope keys
+nnoremap <c-p> :Telescope find_files<CR>
+nnoremap <c-t> :Telescope lsp_dynamic_workspace_symbols<CR>
+nnoremap <c-s-o> :Telescope lsp_document_symbols<CR>
+nnoremap <c-s-f> :Telescope live_grep<CR>
+nnoremap <s-f12> :Telescope lsp_references<CR>
+
+" use c-g to toggle copilot chat
+nnoremap <c-g> :CopilotChatToggle<CR>
+
+" use c-hjlk to move between windows
+nnoremap <c-j> <C-w>j
+nnoremap <c-k> <C-w>k
+nnoremap <c-h> <C-w>h
+nnoremap <c-l> <C-w>l
+
+" terminal keys
+nnoremap <c-`> :ToggleTerm<CR>
+tnoremap <c-`> <C-\><C-n>:ToggleTerm<CR>
+tnoremap <Esc> <C-\><C-n>
+
+" toggle file explorer
+" nnoremap <c-b> :NERDTreeToggle %<CR>
+
+" use spaces for indentation, make indent size 4 and tab size 4
+set expandtab
+set tabstop=4
+set shiftwidth=4
+
+" use c-/ to toggle comments
+vnoremap <c-/> :Commentary<CR>
+nnoremap <c-/> :Commentary<CR>
+
+" switch between header and source files using alt+o
+nnoremap <a-o> :ClangdSwitchSourceHeader<CR>
+
+" debugger keys
+nnoremap <f9> :DapToggleBreakpoint<CR>
+nnoremap <f5> :DapContinue<CR>
+nnoremap <S-f5> :DapTerminate<CR>
+nnoremap <f10> :DapStepOver<CR>
+nnoremap <f11> :DapStepInto<CR>
+nnoremap <S-f11> :DapStepOut<CR>
+nnoremap <leader><f5> :lua require'dapui'.toggle()<CR>
+
+
+" restore last file location
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
+" set font to Jetbrains Mono
+set guifont=JetBrains\ Mono:h13
+
+" set signcolumn to number
+" we can't disable signcolumn because we need it for breakpoints and debug
+" pointer, so we could at least use it for line numbers
+set number
+set relativenumber
+set signcolumn=number
+
+" clear search highlight when escape is pressed
+nnoremap <esc> :nohlsearch<CR>
+
+" configure multiple cursors
+let g:VM_maps = {}
+let g:VM_maps['Find Under']         = '<C-d>'
+let g:VM_maps['Find Subword Under'] = '<C-d>'
+
+" hover overviews in normal and debug mode
+vnoremap <f2> :lua require('dapui').eval()<CR>
+nnoremap <f2> :lua require('dapui').eval()<CR>
+nnoremap <f1> :lua vim.lsp.buf.hover()<CR>
+
+" enable local vimrc
+set exrc
+
+" dont show scratch window on autocomplete
+set completeopt-=preview
+
+" open vim fugitive
+nnoremap <leader>g :G<CR>
+
+" use c-s to save
+nnoremap <c-s> :w<CR>
